@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таймер зворотнього відліку</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f1f1f1;
+            margin-top: 20px;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #timer {
+            font-size: 2rem;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .timer-section {
+            display: inline-block;
+            margin: 0 10px;
+        }
+
+        .timer-value {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .timer-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        #days {
+            background-color: #aed9e0; /* ніжно голубий */
+            color: #333;
+        }
+
+        #hours {
+            background-color: #ffb6c1; /* ніжно рожевий */
+            color: #333;
+        }
+
+        #minutes {
+            background-color: #fff1cf; /* ніжно жовтий */
+            color: #333;
+        }
+
+        #seconds {
+            background-color: #e2c2f6; /* ніжно фіолетовий */
+            color: #333;
+        }
+    </style>
+    <script>
+        function startTimer() {
+            // Отримуємо введену користувачем дату та час
+            var inputDate = document.getElementById("datetime").value;
+
+            // Задаємо дату, до якої рахуватиметься час
+            var countDownDate = new Date(inputDate).getTime();
+
+            // Оновлюємо таймер кожну секунду
+            var x = setInterval(function() {
+
+                // Отримуємо поточну дату та час
+                var now = new Date().getTime();
+
+                // Знаходимо різницю між поточною датою та датою завершення
+                var distance = countDownDate - now;
+
+                // Обчислюємо час у днях, годинах, хвилинах та секундах
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Виводимо результат у відповідні елементи HTML
+                document.getElementById("days").innerHTML = days;
+                document.getElementById("hours").innerHTML = hours;
+                document.getElementById("minutes").innerHTML = minutes;
+                document.getElementById("seconds").innerHTML = seconds;
+
+                // Якщо таймер завершено, виводимо повідомлення
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("timer").innerHTML = "Термін вже минув";
+                }
+            }, 1000);
+        }
+    </script>
+</head>
+<body>
+    <input type="datetime-local" id="datetime">
+    <button onclick="startTimer()">Почати відлік</button>
+    <div id="timer">
+        <div class="timer-section">
+            <div class="circle" id="days"></div>
+            <div class="timer-label">днів</div>
+        </div>
+        <div class="timer-section">
+            <div class="circle" id="hours"></div>
+            <div class="timer-label">годин</div>
+        </div>
+        <div class="timer-section">
+            <div class="circle" id="minutes"></div>
+            <div class="timer-label">хвилин</div>
+        </div>
+        <div class="timer-section">
+            <div class="circle" id="seconds"></div>
+            <div class="timer-label">секунд</div>
+        </div>
+    </div>
+</body>
+</html>
